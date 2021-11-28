@@ -37,7 +37,7 @@ namespace OOPEksamensprojekt
         private string _username;
         public string Username
         {
-            get => _lastname;
+            get => _username;
             private set
             {
                 Regex regex = new Regex("([a-z0-9_]+)");
@@ -45,7 +45,7 @@ namespace OOPEksamensprojekt
                 {
                     throw new ArgumentException($"{value} is not a valid username");
                 }
-                _lastname = value;
+                _username = value;
             }
         }
 

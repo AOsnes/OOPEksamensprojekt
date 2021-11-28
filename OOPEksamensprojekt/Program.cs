@@ -6,7 +6,7 @@ namespace OOPEksamensprojekt
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            User user = new User("Arthur", "Osnes", "arthur");
         }
     }
 }

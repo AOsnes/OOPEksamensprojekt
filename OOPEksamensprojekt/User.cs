@@ -40,7 +40,7 @@ namespace OOPEksamensprojekt
             get => _username;
             private set
             {
-                Regex regex = new Regex("([a-z0-9_]+)");
+                Regex regex = new Regex("^([a-z0-9_]+)$");
                 if (!regex.IsMatch(value))
                 {
                     throw new ArgumentException($"{value} is not a valid username");
@@ -55,22 +55,24 @@ namespace OOPEksamensprojekt
             get => _email;
             private set
             {
-                Regex regex = new Regex(@"([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+).([a-zA-Z0-9_\-\.]+)");
+                Regex regex = new Regex(@"^([a-zA-Z0-9_\-\.]+)@[^\-\.]([a-zA-Z0-9_\-\.]+).([a-zA-Z0-9_\-\.]+)[^\-\.]$");
                 if (!regex.IsMatch(value))
                 {
                     throw new ArgumentException($"{value} is not a valid email");
                 }
                 _email = value;
+
             }
         }
         public decimal Balance { get; private set; }
         delegate string UserBalanceNotification(User user, decimal balance);
 
-        public User(string firstname, string lastname, string username)
+        public User(string firstname, string lastname, string username, string email)
         {
             Firstname = firstname;
             Lastname = lastname;
             Username = username;
+            Email = email;
 
             UserId = _userIdCount;
             _userIdCount++;

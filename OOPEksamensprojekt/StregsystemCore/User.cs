@@ -1,9 +1,9 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace OOPEksamensprojekt
+namespace OOPEksamensprojekt.StregsystemCore
 {
-    public class User
+    public class User : IComparable
     {
         public int UserId { get; }
         private static int _userIdCount = 0;
@@ -64,8 +64,8 @@ namespace OOPEksamensprojekt
 
             }
         }
-        public decimal Balance { get; private set; }
-        delegate string UserBalanceNotification(User user, decimal balance);
+        public decimal Balance { get; set; }
+        public delegate string UserBalanceNotification(User user, decimal balance);
 
         public User(string firstname, string lastname, string username, string email)
         {
@@ -78,16 +78,26 @@ namespace OOPEksamensprojekt
             _userIdCount++;
         }
 
+        public User(int userId, string firstname, string lastname, string username, string email, decimal balance)
+        {
+            Firstname = firstname;
+            Lastname = lastname;
+            Username = username;
+            Email = email;
+            UserId = userId;
+            Balance = balance;
+        }
+
         
         
         public override bool Equals(object obj)
         {
-            return Equals(obj as User);
-        }
-
-        public bool Equals(User other)
-        {
-            return UserId == other.UserId && Username == other.Username;
+            User other = obj as User;
+            if (other == null)
+            {
+                return false;
+            }
+            return UserId == other.UserId && Username.Equals(other.Username);
         }
 
         public override int GetHashCode()
@@ -97,7 +107,18 @@ namespace OOPEksamensprojekt
 
         public override string ToString()
         {
-            return $"{Firstname} {Lastname} {Email}";
+            return $"Name: {Firstname} {Lastname}, email: {Email}, balance: {Balance}";
+        }
+
+        public int CompareTo(object? obj)
+        {
+            User otherUser = obj as User;
+            if (otherUser == null)
+            {
+                throw new ArgumentException("Object is not a user");
+            }
+
+            return UserId.CompareTo(otherUser.UserId);
         }
     }
 }

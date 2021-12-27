@@ -1,4 +1,5 @@
 ﻿using System;
+using OOPEksamensprojekt.StregsystemCore;
 
 namespace OOPEksamensprojekt
 {

@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using Xunit;
 using OOPEksamensprojekt;
+using OOPEksamensprojekt.StregsystemCore;
 
 namespace OOPEksamensprojekt.test
 {
@@ -11,8 +12,11 @@ namespace OOPEksamensprojekt.test
         public void TestUsernameValidationWithLegalUsername()
         {
             string username = "arthur_z09";
-            string regex = @"([^a-z0-9_]+)";
-            Assert.DoesNotMatch(regex, username);
+                
+            User user = new User("arthur", "osnes", username, "agottl20@student.aau.dk");
+
+            Assert.NotNull(user);
+            
         }
 
         [Theory]
@@ -24,18 +28,21 @@ namespace OOPEksamensprojekt.test
         [InlineData("!arthur")]
         public void TestUsernameValidationWithIllegalUsername(string username)
         {
-            string regex = @"^([a-z0-9_]+)$";
-            
-            Assert.DoesNotMatch(regex, username);
+            Assert.Throws<ArgumentException>(() => { new User("arthur", "osnes", username, "agottl20@student.aau.dk");});
         }
 
         [Fact]
         public void TestEmailValidationWithLegalEmail()
         {
-            string regex = @"([a-zA-Z0-9_\-\.]+)@[^\-\.]([a-zA-Z0-9_\-\.]+).([a-zA-Z0-9_\-\.]+)[^\-\.$]";
+            // string regex = @"([a-zA-Z0-9_\-\.]+)@[^\-\.]([a-zA-Z0-9_\-\.]+).([a-zA-Z0-9_\-\.]+)[^\-\.$]";
             string email = "Aagottl_-.zZ209@Aa_-.studentzZ09.AauzZ09.dk";
+            //
+            // Assert.Matches(regex, email);
             
-            Assert.Matches(regex, email);
+            User user = new User("arthur", "osnes", "arthur", email);
+
+            Assert.NotNull(user);
+            
         }
 
         [Theory]
@@ -47,9 +54,8 @@ namespace OOPEksamensprojekt.test
         [InlineData("$arthur@gmail.com")]
         public void TestEmailValidationWithIllegalEmail(string email)
         {
-            string regex = @"^([a-zA-Z0-9_\-\.]+)@[^\-\.]([a-zA-Z0-9_\-\.]+).([a-zA-Z0-9_\-\.]+)[^\-\.]$";
 
-            Assert.DoesNotMatch(regex, email);
+            Assert.Throws<ArgumentException>(() => { new User("arthur", "osnes", "arthur", email);});
         }
         
         

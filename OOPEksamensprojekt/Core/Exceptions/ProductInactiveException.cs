@@ -1,6 +1,6 @@
 using System;
 
-namespace OOPEksamensprojekt.StregsystemCore
+namespace OOPEksamensprojekt.Core.Exceptions
 {
     public class ProductInactiveException : Exception
     {

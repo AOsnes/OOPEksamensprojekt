@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
-namespace OOPEksamensprojekt.StregsystemCore
+using OOPEksamensprojekt.Core.Exceptions;
+
+namespace OOPEksamensprojekt.Core
 {
     public class Stregsystem : IStregsystem
     {
@@ -9,6 +11,8 @@ namespace OOPEksamensprojekt.StregsystemCore
         private List<Product> _products;
         private List<User> _users;
         private List<Transaction> _transactions;
+        
+        public event IStregsystem.BalanceWarning UserBalanceWarning;
 
         public Stregsystem()
         {
@@ -16,10 +20,22 @@ namespace OOPEksamensprojekt.StregsystemCore
             _users = CsvReader.GetUsersFromCsv();
             _transactions = new List<Transaction>();
             ActiveProducts = _products.FindAll(product => product.Active);
-            
+
+            foreach (User user in _users)
+            {
+                user.BalanceChange += UserOnBalanceChange;
+            }
 
         }
-        
+
+        private void UserOnBalanceChange(User user, decimal balance)
+        {
+            if (user.Balance < 50)
+            {
+                UserBalanceWarning?.Invoke(user, balance);
+            }
+        }
+
         public InsertCashTransaction AddCreditsToAccount(User user, int amount)
         {
             InsertCashTransaction transaction = new InsertCashTransaction(user, amount);
@@ -27,11 +43,11 @@ namespace OOPEksamensprojekt.StregsystemCore
             return transaction;
         }
 
-        public BuyTransaction BuyProduct(User user, Product product)
+        public BuyTransaction BuyProduct(User user, Product product, int amount)
         {
             if (product.Active)
             {
-                BuyTransaction transaction = new BuyTransaction(product, user);
+                BuyTransaction transaction = new BuyTransaction(product, user, amount);
                 _transactions.Add(transaction);
                 return transaction;
             }
@@ -43,7 +59,8 @@ namespace OOPEksamensprojekt.StregsystemCore
         {
             if (_products.Exists(product => id == product.Id))
             {
-                return _products.Find(product => id == product.Id);
+                Product result = _products.Find(product => id == product.Id);
+                return result;
             }
 
             throw new ProductDoesNotExistException(id);
@@ -53,6 +70,10 @@ namespace OOPEksamensprojekt.StregsystemCore
         {
             List<Transaction> transactions = _transactions.FindAll(transaction => user.Equals(transaction.TransactionUser));
             transactions.Reverse();
+            if (transactions.Count < 10)
+            {
+                return transactions.GetRange(0, transactions.Count);
+            }
             return transactions.GetRange(0, count);
         }
 
@@ -76,6 +97,5 @@ namespace OOPEksamensprojekt.StregsystemCore
             return _users.Find(user => user.Username.Equals(username)) ?? throw new UserDoesNotExistException(username);
         }
 
-        public event User.UserBalanceNotification UserBalanceWarning;
     }
 }

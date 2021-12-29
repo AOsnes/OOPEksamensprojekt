@@ -1,7 +1,8 @@
 using System;
-using OOPEksamensprojekt.StregsystemCore;
+using System.Collections.Generic;
+using OOPEksamensprojekt.Core;
 
-namespace OOPEksamensprojekt.StregsystemUI
+namespace OOPEksamensprojekt.UI
 {
     public class StregsystemCLI : IStregsystemUI
     {
@@ -11,6 +12,7 @@ namespace OOPEksamensprojekt.StregsystemUI
         public StregsystemCLI(IStregsystem stregsystem)
         {
             Stregsystem = stregsystem;
+            stregsystem.UserBalanceWarning += DisplayLowBalance;
         }
         
         public void DisplayUserNotFound(string username)
@@ -50,6 +52,7 @@ namespace OOPEksamensprojekt.StregsystemUI
 
         public void Close()
         {
+            Console.WriteLine("Program closing, bye!");
             _running = false;
         }
 
@@ -71,13 +74,19 @@ namespace OOPEksamensprojekt.StregsystemUI
             
             while (_running)
             {
-
+                Console.WriteLine("Please enter your command");
                 userInput = Console.ReadLine();
-
+                
+                CommandEntered?.Invoke(userInput);
             }
             
         }
 
+        public void DisplayLowBalance(User user, decimal balance)
+        {
+            Console.WriteLine($"Warning! {user.Username} has a low balance of {balance}");
+        }
+        
         public void DisplayProducts()
         {
             foreach (Product product in Stregsystem.ActiveProducts)
@@ -88,9 +97,12 @@ namespace OOPEksamensprojekt.StregsystemUI
             Console.WriteLine();
         }
 
-        public void DisplayTransactions()
+        public void DisplayTransactions(IEnumerable<Transaction> transactions)
         {
-            
+            foreach (Transaction transaction in transactions)
+            {
+                Console.WriteLine(transaction);
+            }
         }
 
         public event IStregsystemUI.StregsystemEvent CommandEntered;

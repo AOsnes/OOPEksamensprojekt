@@ -1,5 +1,7 @@
 ﻿using System;
-using OOPEksamensprojekt.StregsystemCore;
+using OOPEksamensprojekt.Controller;
+using OOPEksamensprojekt.Core;
+using OOPEksamensprojekt.UI;
 
 namespace OOPEksamensprojekt
 {
@@ -7,7 +9,11 @@ namespace OOPEksamensprojekt
     {
         static void Main(string[] args)
         {
-            User user = new User("Arthur", "Osnes", "arthur", "eksempel2@mit_domain.dk");
+            Stregsystem stregsystem = new Stregsystem();
+            StregsystemCLI ui = new StregsystemCLI(stregsystem);
+            StregsystemController controller = new StregsystemController(stregsystem, ui);
+            ui.Start();
+            
         }
     }
 }

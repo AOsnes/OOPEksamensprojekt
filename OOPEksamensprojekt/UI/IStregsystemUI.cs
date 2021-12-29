@@ -1,6 +1,7 @@
-using OOPEksamensprojekt.StregsystemCore;
+using System.Collections.Generic;
+using OOPEksamensprojekt.Core;
 
-namespace OOPEksamensprojekt.StregsystemUI
+namespace OOPEksamensprojekt.UI
 {
     public interface IStregsystemUI
     {
@@ -16,6 +17,7 @@ namespace OOPEksamensprojekt.StregsystemUI
         void DisplayInsufficientCash(User user, Product product);
         void DisplayGeneralError(string errorString);
         void Start();
+        void DisplayTransactions(IEnumerable<Transaction> transactions);
         event StregsystemEvent CommandEntered;
     }
 }

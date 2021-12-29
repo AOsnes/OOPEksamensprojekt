@@ -1,15 +1,15 @@
 using System;
 
-namespace OOPEksamensprojekt.StregsystemCore
+namespace OOPEksamensprojekt.Core.Exceptions
 {
     public class InsufficientCreditsException : Exception
     {
-        private User _user;
-        private Product _product;
+        public User User;
+        public Product Product;
         public InsufficientCreditsException(User user, Product product, string msg) : base(msg)
         {
-            _user = user;
-            _product = product;
+            User = user;
+            Product = product;
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using Xunit;
 using OOPEksamensprojekt;
-using OOPEksamensprojekt.StregsystemCore;
+using OOPEksamensprojekt.Core;
 
 namespace OOPEksamensprojekt.test
 {

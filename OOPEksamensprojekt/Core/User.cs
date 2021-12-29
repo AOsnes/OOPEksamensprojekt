@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace OOPEksamensprojekt.StregsystemCore
+namespace OOPEksamensprojekt.Core
 {
     public class User : IComparable
     {
@@ -64,9 +64,21 @@ namespace OOPEksamensprojekt.StregsystemCore
 
             }
         }
-        public decimal Balance { get; set; }
-        public delegate string UserBalanceNotification(User user, decimal balance);
 
+        private decimal _balance;
+        public decimal Balance { 
+            get => _balance;
+            set
+            {
+                BalanceChange?.Invoke(this, _balance);
+                _balance = value;
+                
+            } 
+        }
+        public delegate void UserBalanceNotification(User user, decimal balance);
+
+        public event UserBalanceNotification BalanceChange;
+        
         public User(string firstname, string lastname, string username, string email)
         {
             Firstname = firstname;

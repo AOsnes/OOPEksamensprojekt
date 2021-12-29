@@ -1,4 +1,4 @@
-namespace OOPEksamensprojekt.StregsystemCore
+namespace OOPEksamensprojekt.Core
 {
     public class Product
     {
@@ -17,7 +17,26 @@ namespace OOPEksamensprojekt.StregsystemCore
             Id = id;
         }
 
+        public void Activate()
+        {
+            Active = true;
+        }
 
+        public void Deactivate()
+        {
+            Active = false;
+        }
+
+        public void EnableBuyOnCredit()
+        {
+            CanBeBoughtOnCredit = true;
+        }
+
+        public void DisableBuyOnCredit()
+        {
+            CanBeBoughtOnCredit = false;
+        }
+        
         public override string ToString()
         {
             return $"ID: {Id} Name: {Name} Price: {Price} ";

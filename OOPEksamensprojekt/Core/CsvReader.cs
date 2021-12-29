@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Microsoft.VisualBasic.FileIO;
 
-namespace OOPEksamensprojekt.StregsystemCore
+namespace OOPEksamensprojekt.Core
 {
     public static class CsvReader
     {
@@ -11,7 +11,7 @@ namespace OOPEksamensprojekt.StregsystemCore
         public static List<Product> GetProductsFromCsv()
         {
             List<Product> products = new List<Product>();
-            using (TextFieldParser reader = new TextFieldParser("products.csv"))
+            using (TextFieldParser reader = new TextFieldParser("../../../products.csv"))
             {
                 reader.TextFieldType = FieldType.Delimited;
                 reader.SetDelimiters(";");
@@ -34,10 +34,10 @@ namespace OOPEksamensprojekt.StregsystemCore
         public static List<User> GetUsersFromCsv()
         {
             List<User> users = new List<User>();
-            using (TextFieldParser reader = new TextFieldParser("users.csv"))
+            using (TextFieldParser reader = new TextFieldParser("../../../users.csv"))
             {
                 reader.TextFieldType = FieldType.Delimited;
-                reader.SetDelimiters(";");
+                reader.SetDelimiters(",");
                 reader.ReadFields();
                 while (!reader.EndOfData)
                 {

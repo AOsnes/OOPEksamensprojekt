@@ -1,6 +1,6 @@
 using System;
 
-namespace OOPEksamensprojekt.StregsystemCore
+namespace OOPEksamensprojekt.Core
 {
     public class SeasonalProduct : Product
     {

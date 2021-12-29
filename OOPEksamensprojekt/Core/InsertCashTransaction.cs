@@ -1,15 +1,15 @@
-namespace OOPEksamensprojekt.StregsystemCore
+namespace OOPEksamensprojekt.Core
 {
     public class InsertCashTransaction : Transaction
     {
-        public InsertCashTransaction(User user, decimal amount) : base(user, amount)
+        public InsertCashTransaction(User user, decimal value) : base(user, value)
         {
             
         }
 
         public override void Execute()
         {
-            TransactionUser.Balance += Amount;
+            TransactionUser.Balance += Value;
         }
 
         public override string ToString()

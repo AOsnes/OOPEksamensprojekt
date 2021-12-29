@@ -1,11 +1,11 @@
 using System;
 
-namespace OOPEksamensprojekt.StregsystemCore
+namespace OOPEksamensprojekt.Core
 {
     public abstract class Transaction
     {
         public int Id { get; private set; }
-        private int _idCount = 0;
+        private static int _idCount = 0;
         private User _transactionUser;
         public User TransactionUser
         {
@@ -19,16 +19,18 @@ namespace OOPEksamensprojekt.StregsystemCore
                 {
                     throw new ArgumentNullException("User cannot be null");
                 }
+
+                _transactionUser = value;
             } 
         }
 
         public DateTime TransactionDate { get; private set; }
-        public decimal Amount { get; protected set; }
+        public decimal Value { get; protected set; }
 
-        public Transaction(User transactionUser, decimal amount)
+        public Transaction(User transactionUser, decimal value)
         {
             TransactionUser = transactionUser;
-            Amount = amount;
+            Value = value;
             TransactionDate = DateTime.Now;
             Id = _idCount;
             _idCount++;
@@ -36,7 +38,7 @@ namespace OOPEksamensprojekt.StregsystemCore
 
         public override string ToString()
         {
-            return $"Transaction ID: {Id} User: {TransactionUser} Amount: {Amount} Date: {TransactionDate.ToString()}";
+            return $"Transaction ID: {Id} User: {TransactionUser.Username} Amount: {Value} Date: {TransactionDate.ToString()}";
         }
 
         public abstract void Execute();

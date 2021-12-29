@@ -6,7 +6,6 @@ namespace OOPEksamensprojekt.Core
     public class User : IComparable
     {
         public int UserId { get; }
-        private static int _userIdCount = 0;
         private string _firstname;
         public string Firstname
         {
@@ -70,26 +69,14 @@ namespace OOPEksamensprojekt.Core
             get => _balance;
             set
             {
-                BalanceChange?.Invoke(this, _balance);
                 _balance = value;
-                
+                BalanceChange?.Invoke(this, _balance);
             } 
         }
         public delegate void UserBalanceNotification(User user, decimal balance);
 
         public event UserBalanceNotification BalanceChange;
         
-        public User(string firstname, string lastname, string username, string email)
-        {
-            Firstname = firstname;
-            Lastname = lastname;
-            Username = username;
-            Email = email;
-
-            UserId = _userIdCount;
-            _userIdCount++;
-        }
-
         public User(int userId, string firstname, string lastname, string username, string email, decimal balance)
         {
             Firstname = firstname;
@@ -99,8 +86,6 @@ namespace OOPEksamensprojekt.Core
             UserId = userId;
             Balance = balance;
         }
-
-        
         
         public override bool Equals(object obj)
         {

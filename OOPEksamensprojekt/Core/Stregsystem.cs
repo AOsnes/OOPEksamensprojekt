@@ -28,7 +28,7 @@ namespace OOPEksamensprojekt.Core
 
         }
 
-        private void UserOnBalanceChange(User user, decimal balance)
+        public void UserOnBalanceChange(User user, decimal balance)
         {
             if (user.Balance < 50)
             {

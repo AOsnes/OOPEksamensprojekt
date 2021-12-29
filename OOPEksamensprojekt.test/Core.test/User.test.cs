@@ -1,10 +1,8 @@
 using System;
-using System.Runtime.InteropServices;
-using Xunit;
-using OOPEksamensprojekt;
 using OOPEksamensprojekt.Core;
+using Xunit;
 
-namespace OOPEksamensprojekt.test
+namespace OOPEksamensprojekt.test.Core.test
 {
     public class UserTest
     {
@@ -13,7 +11,7 @@ namespace OOPEksamensprojekt.test
         {
             string username = "arthur_z09";
                 
-            User user = new User("arthur", "osnes", username, "agottl20@student.aau.dk");
+            User user = new User(1,"arthur", "osnes", username, "agottl20@student.aau.dk", 1000);
 
             Assert.NotNull(user);
             
@@ -28,7 +26,7 @@ namespace OOPEksamensprojekt.test
         [InlineData("!arthur")]
         public void TestUsernameValidationWithIllegalUsername(string username)
         {
-            Assert.Throws<ArgumentException>(() => { new User("arthur", "osnes", username, "agottl20@student.aau.dk");});
+            Assert.Throws<ArgumentException>(() => { new User(1, "arthur", "osnes", username, "agottl20@student.aau.dk", 1000);});
         }
 
         [Fact]
@@ -39,7 +37,7 @@ namespace OOPEksamensprojekt.test
             //
             // Assert.Matches(regex, email);
             
-            User user = new User("arthur", "osnes", "arthur", email);
+            User user = new User(1, "arthur", "osnes", "arthur", email, 1000);
 
             Assert.NotNull(user);
             
@@ -55,7 +53,18 @@ namespace OOPEksamensprojekt.test
         public void TestEmailValidationWithIllegalEmail(string email)
         {
 
-            Assert.Throws<ArgumentException>(() => { new User("arthur", "osnes", "arthur", email);});
+            Assert.Throws<ArgumentException>(() => { new User(1, "arthur", "osnes", "arthur", email, 1000);});
+        }
+
+        [Fact]
+        public void BalanceNotificationEventRaisedTest()
+        {
+            User user = new User(1, "Arthur", "Osnes Gottlieb", "arthur", "agottl20@student.aau.dk", 100);
+            bool isRaised = false;
+            user.BalanceChange += (user1, balance) => { isRaised = true;};
+            user.Balance += 10;
+            
+            Assert.True(isRaised);
         }
         
         
